@@ -1,0 +1,118 @@
+application:
+  kafka:
+    topic: "pet-topic"
+
+spring:
+  application:
+    name: writer
+  security:
+    user:
+      name: userAdmin
+      password: passwordAdmin
+  boot:
+    admin:
+      client:
+        url: http://localhost:5004
+        # от server
+        username: userAdmin
+        password: passwordAdmin
+        instance:
+          metadata:
+            # от server
+            user:
+              name: userAdmin
+              password: passwordAdmin
+  kafka:
+    consumer:
+      group-id: "pet-group"
+      bootstrap-servers: "localhost:9092"
+      client-id: "pet-consumer"
+      auto-offset-reset: earliest
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+
+  data:
+    web:
+      pageable:
+        default-page-size: 50
+        max-page-size: 50
+        one-indexed-parameters: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/example
+    username: admindb
+    password: passwordAdminDB
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+      properties:
+        hibernate:
+          format_sql: true
+      enable_lazy_load_no_trans: true
+      event:
+        merge:
+          entity_copy_observer: allow
+    open-in-view: false # EXPLAIN_V Держать ли открытой транзакцию пока открыт HTTP запрос
+  docker:
+    compose:
+      enabled: false
+      skip:
+        in-test: false
+
+server:
+  port: 5003
+  max-http-header-size: 100000
+
+# Настройка Actuator
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*" # EXPLAIN_V Открыть у актуатора больше запросов для метрик
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+
+
+logging:
+  path: ${user.home}/logs/main
+  level:
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: TRACE
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/example
+    username: admindb
+    password: passwordAdminDB
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    root: WARN
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: INFO
+
