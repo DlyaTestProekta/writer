@@ -33,5 +33,9 @@ out/
 /nbdist/
 /.nb-gradle/
 
+### Self ###
+*.log
+.env
+
 ### VS Code ###
 .vscode/

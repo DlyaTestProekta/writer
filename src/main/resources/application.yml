@@ -1,39 +1,40 @@
 application:
   kafka:
-    topic: "pet-topic"
+    topic: ${KAFKA_TOPIC}
 
 spring:
   application:
     name: writer
+  config:
+    import: optional:file:.env[.properties]
   security:
     user:
-      name: userAdmin
-      password: passwordAdmin
+      name: ${SPRING_USER}
+      password: ${SPRING_PASSWORD}
   boot:
     admin:
       client:
-        url: http://localhost:5004
+        url: http://${SPRING_ADMIN_HOST}:5004
         # от server
-        username: userAdmin
-        password: passwordAdmin
+        username: ${SPRING_ADMIN_USER}
+        password: ${SPRING_ADMIN_PASSWORD}
         instance:
           metadata:
             # от server
             user:
-              name: userAdmin
-              password: passwordAdmin
+              name: ${SPRING_ADMIN_USER}
+              password: ${SPRING_ADMIN_PASSWORD}
   kafka:
     consumer:
-      group-id: "pet-group"
-      bootstrap-servers: "localhost:9092"
-      client-id: "pet-consumer"
+      group-id: ${KAFKA_GROUP_ID}
+      bootstrap-servers: ${KAFKA_HOST}:9092
+      client-id: ${KAFKA_CLIENT_ID}
       auto-offset-reset: earliest
       properties:
         spring:
           json:
             trusted:
               packages: "*"
-
   data:
     web:
       pageable:
@@ -42,9 +43,9 @@ spring:
         one-indexed-parameters: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/example
-    username: admindb
-    password: passwordAdminDB
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     show-sql: true
     hibernate:
@@ -84,7 +85,6 @@ management:
       percentiles-histogram:
         "[http.server.requests]": true
 
-
 logging:
   path: ${user.home}/logs/main
   level:
@@ -98,12 +98,9 @@ logging:
 
 spring:
   config:
+    import: optional:file:.env[.properties]
     activate:
       on-profile: "prod"
-  datasource:
-    url: jdbc:postgresql://localhost:5432/example
-    username: admindb
-    password: passwordAdminDB
   jpa:
     show-sql: false
 
@@ -115,4 +112,3 @@ logging:
         orm:
           jdbc:
             bind: INFO
-
