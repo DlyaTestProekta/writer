@@ -1,4 +1,4 @@
-package ru.pachan.writer.service;
+package ru.pachan.writer.service.writerDtoConsumer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

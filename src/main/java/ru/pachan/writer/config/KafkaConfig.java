@@ -18,7 +18,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import ru.pachan.writer.dto.WriterDto;
-import ru.pachan.writer.service.WriterDtoConsumer;
+import ru.pachan.writer.service.writerDtoConsumer.WriterDtoConsumer;
 
 import java.util.List;
 import java.util.Map;

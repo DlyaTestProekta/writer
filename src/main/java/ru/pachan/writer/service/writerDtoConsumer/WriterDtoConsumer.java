@@ -1,4 +1,4 @@
-package ru.pachan.writer.service;
+package ru.pachan.writer.service.writerDtoConsumer;
 
 import ru.pachan.writer.dto.WriterDto;
 
