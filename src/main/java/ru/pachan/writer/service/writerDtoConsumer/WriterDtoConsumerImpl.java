@@ -9,6 +9,7 @@ import ru.pachan.writer.repository.NotificationRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -19,17 +20,23 @@ public class WriterDtoConsumerImpl implements WriterDtoConsumer {
     @Transactional
     @Override
     public void accept(List<WriterDto> writerDtoList) {
-        writerDtoList.forEach(it -> {
-            Optional<Notification> notification = repository.findByPersonId(it.personId());
-            if (notification.isPresent()) {
-                notification.get().setCount(notification.get().getCount() + it.count());
-                repository.save(notification.get());
-            } else {
-                Notification newNotification = new Notification();
-                newNotification.setPersonId(it.personId());
-                newNotification.setCount(it.count());
-                repository.save(newNotification);
-            }
-        });
+        List<Notification> notificationList = writerDtoList.stream().collect(
+                Collectors.groupingBy(
+                        WriterDto::personId,
+                        Collectors.summingInt(WriterDto::count))
+        ).entrySet().stream().map(writerDtoEntry -> {
+                    Optional<Notification> notification = repository.findByPersonId(writerDtoEntry.getKey());
+                    if (notification.isPresent()) {
+                        notification.get().setCount(notification.get().getCount() + writerDtoEntry.getValue());
+                        return notification.get();
+                    } else {
+                        Notification newNotification = new Notification();
+                        newNotification.setPersonId(writerDtoEntry.getKey());
+                        newNotification.setCount(writerDtoEntry.getValue());
+                        return newNotification;
+                    }
+                }
+        ).toList();
+        repository.saveAll(notificationList);
     }
 }
