@@ -58,6 +58,13 @@ spring:
         merge:
           entity_copy_observer: allow
     open-in-view: false # EXPLAIN_V Держать ли открытой транзакцию пока открыт HTTP запрос
+    properties:
+      hibernate:
+        generate_statistics: true
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 4
   docker:
     compose:
       enabled: false
@@ -103,6 +110,9 @@ spring:
       on-profile: "prod"
   jpa:
     show-sql: false
+    properties:
+      hibernate:
+        generate_statistics: false
 
 logging:
   level:
