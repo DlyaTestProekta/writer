@@ -6,6 +6,7 @@ val micrometerPrometheusVer: String by project // 1.12.4
 val lombokVer: String by project // 1.18.32
 val kafkaVer: String by project // 3.2.0
 val junitVer: String by project // 1.11.0-M2
+val logstashEncoderVer: String by project // 8.0
 
 plugins {
 	java
@@ -32,6 +33,7 @@ dependencies {
 	implementation("io.micrometer:micrometer-registry-prometheus:$micrometerPrometheusVer")
 	implementation("org.springframework.kafka:spring-kafka:$kafkaVer")
 	implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVer")
+	implementation("net.logstash.logback:logstash-logback-encoder:$logstashEncoderVer")
 	runtimeOnly("org.postgresql:postgresql:$postgreSQLVer")
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootStarterVer")
 	testImplementation("org.springframework.kafka:spring-kafka-test:$kafkaVer")

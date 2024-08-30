@@ -1,6 +1,7 @@
 package ru.pachan.writer.service.writerDtoConsumer;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pachan.writer.dto.WriterDto;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class WriterDtoConsumerImpl implements WriterDtoConsumer {
 
     private final NotificationRepository repository;
@@ -20,6 +22,7 @@ public class WriterDtoConsumerImpl implements WriterDtoConsumer {
     @Transactional
     @Override
     public void accept(List<WriterDto> writerDtoList) {
+        log.info("start WriterDtoConsumerImpl.accept for {}", writerDtoList);
         List<Notification> notificationList = writerDtoList.stream().collect(
                 Collectors.groupingBy(
                         WriterDto::personId,
