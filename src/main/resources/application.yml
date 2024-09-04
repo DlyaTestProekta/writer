@@ -19,6 +19,7 @@ spring:
         username: ${SPRING_ADMIN_USER}
         password: ${SPRING_ADMIN_PASSWORD}
         instance:
+          prefer-ip: true
           metadata:
             # от server
             user:
@@ -85,6 +86,8 @@ management:
       exposure:
         include: "*" # EXPLAIN_V Открыть у актуатора больше запросов для метрик
   metrics:
+    tags:
+      application: ${spring.application.name}
     export:
       prometheus:
         enabled: true
