@@ -29,4 +29,5 @@ public class Notification {
     @Column(name = "notification_id")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
+
 }

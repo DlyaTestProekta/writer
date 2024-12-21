@@ -42,4 +42,5 @@ public class WriterDtoConsumerImpl implements WriterDtoConsumer {
         ).toList();
         repository.saveAll(notificationList);
     }
+
 }

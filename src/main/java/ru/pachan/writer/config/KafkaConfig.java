@@ -40,7 +40,6 @@ public class KafkaConfig {
         DefaultKafkaConsumerFactory<String, WriterDto> kafkaConsumerFactory = new DefaultKafkaConsumerFactory<>(props);
         kafkaConsumerFactory.setValueDeserializer(new JsonDeserializer<>(WriterDto.class, false));
         return kafkaConsumerFactory;
-
     }
 
     @Bean("listenerContainerFactory")
@@ -82,4 +81,5 @@ public class KafkaConfig {
             writerDtoConsumer.accept(writerDtoList);
         }
     }
+
 }
